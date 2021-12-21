@@ -18,7 +18,6 @@ mongoose.connect('mongodb+srv://oscar-47:LIv0brian@cluster0.blprn.mongodb.net/my
 app.use(express.json());
 
 
-
 app.use((req, res, next) => { 
     res.setHeader('Access-Control-Allow-Origin', '*');   
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');   
@@ -28,47 +27,6 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
  
-/*
-app.use((req, res, next) => { 
-
- console.log('Requête reçue !'); 
-
- next(); 
-
-}); 
-
- 
-
-app.use((req, res, next) => { 
-
- res.status(201); 
-
- next(); 
-
-}); 
-
- 
-
-app.use((req, res, next) => { 
-
- res.json({ message: 'Votre requête a bien été reçue !' }); 
-
- next(); 
-
-}); 
-
- 
-
-app.use((req, res, next) => { 
-
- console.log('Réponse envoyée avec succès !'); 
-
-}); 
-
-*/
-
-
-
 
 app.use('/api/auth/login', (req, res, next) => {
     
