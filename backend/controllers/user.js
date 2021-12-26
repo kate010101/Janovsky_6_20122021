@@ -1,9 +1,27 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const User = require('../models/User');
+const passwordSchema = require("../utils/passwordValidator");
+const emailValidator = require("email-validator");
 
+
+// Pour l'inscription de l'utilisateur
 exports.signup = (req, res, next) => {
+  // Vérification du format de l'adresse mail
+  if (!emailValidator.validate(req.body.email)) {
+    return res
+      .status(401)
+      .json({ message: "Veuillez entrer une adresse email valide" });
+  }
+  // Vérification du format du mot de passe
+  if (!passwordSchema.validate(req.body.password)) {
+    return res
+      .status(401)
+      .json({
+        message: `Le mot de passe doit contenir au moins 8 caractères avec un chiffre, une minuscule, une majuscule et pas d'espace`,
+      });
+  }
+  // Utilisation de bcrypt pour hasher le mot de passe
     bcrypt.hash(req.body.password, 10)
     .then(hash => {
       const user = new User({
@@ -17,6 +35,8 @@ exports.signup = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
+
+// Pour la connexion d'un utilisateur et l'attribution d'un token utilisateur
 exports.login = (req, res, next) => {
     User.findOne({ email: req.body.email })
     .then(user => {

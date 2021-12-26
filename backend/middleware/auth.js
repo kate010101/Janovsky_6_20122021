@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+// Middleware pour la connexion de l'utilisateur via son token 
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
