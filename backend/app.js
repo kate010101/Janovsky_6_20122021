@@ -17,9 +17,11 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000, 
-  max: 100
-});
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 3, // Limite chaque IP à 3 requetes par `fenetre` (ici, par 15 minutes)
+	standardHeaders: true, // Retourne l'info rate limit dans les `RateLimit-*` headers
+	legacyHeaders: false, // Empeche les `X-RateLimit-*` headers
+})
 
 // Connexion à la base de données mongoDB
 mongoose
@@ -53,10 +55,8 @@ app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/sauces', sauceRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/api/auth', limiter, userRoutes);
 
-// Protége contre un grand nombre d'envois de données de manière malveillante
-app.use(limiter);
 
 
 module.exports = app; 
