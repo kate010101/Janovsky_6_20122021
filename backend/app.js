@@ -18,7 +18,7 @@ require('dotenv').config();
 
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 3, // Limite chaque IP à 3 requetes par `fenetre` (ici, par 15 minutes)
+	max: 10, // Limite chaque IP à 3 requetes par `fenetre` (ici, par 15 minutes)
 	standardHeaders: true, // Retourne l'info rate limit dans les `RateLimit-*` headers
 	legacyHeaders: false, // Empeche les `X-RateLimit-*` headers
 })
